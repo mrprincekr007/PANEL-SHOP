@@ -1,0 +1,191 @@
+<nav id="bottomNav" class="bottom-nav">
+    
+    <a href="../../pages/home/home.html" class="nav-item" id="navHome">
+        <i class="fa-solid fa-house nav-icon"></i>
+        <span class="nav-text" data-i18n="home">Home</span>
+    </a>
+
+    <a href="../../pages/shop/shop.html" class="nav-item" id="navStore">
+        <i class="fa-solid fa-layer-group nav-icon"></i>
+        <span class="nav-text" data-i18n="store">Store</span>
+    </a>
+
+    <a href="../../pages/shop/shop.html" class="nav-center" id="navCenter">
+        <div class="center-circle">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cartBadge" class="cart-badge">0</span>
+        </div>
+    </a>
+
+    <a href="../../pages/wallet/wallet.html" class="nav-item" id="navWallet">
+        <i class="fa-solid fa-wallet nav-icon"></i>
+        <span class="nav-text" data-i18n="wallet">Wallet</span>
+    </a>
+
+    <a href="../../pages/profile/profile.html" class="nav-item" id="navProfile">
+        <i class="fa-solid fa-user-astronaut nav-icon"></i>
+        <span class="nav-text" data-i18n="profile">Profile</span>
+    </a>
+
+</nav>
+
+<style>
+    :root {
+        --nav-bg-color: rgba(10, 12, 18, 0.85);
+        --nav-border-color: rgba(255, 255, 255, 0.05);
+        --nav-inactive-color: #64748b;
+        --nav-active-color: #f43f5e;
+        --nav-glow-color: rgba(244, 63, 94, 0.7);
+    }
+
+    .bottom-nav {
+        position: fixed;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        width: min(94%, 500px);
+        height: 75px;
+        background: var(--nav-bg-color);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--nav-border-color);
+        border-radius: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        z-index: 99999;
+        transition: transform 0.25s ease;
+        will-change: transform;
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 20%;
+        height: 100%;
+        color: var(--nav-inactive-color);
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        border-radius: 30px;
+        transition: color 0.25s ease;
+        -webkit-tap-highlight-color: transparent;
+        will-change: color;
+    }
+
+    .nav-icon {
+        font-size: 22px;
+        margin-bottom: 3px;
+        transition: transform 0.25s ease, text-shadow 0.25s ease;
+        will-change: transform;
+    }
+
+    .nav-text {
+        font-size: 9px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        opacity: 0;
+        transform: translateY(15px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .nav-item.active { color: var(--nav-active-color); }
+    .nav-item.active .nav-icon { transform: translateY(-4px); text-shadow: 0 0 15px var(--nav-glow-color), 0 0 30px var(--nav-glow-color); }
+    .nav-item.active .nav-text { opacity: 1; transform: translateY(0); text-shadow: 0 0 10px var(--nav-glow-color); }
+
+    .nav-center {
+        width: 20%;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        top: -30px;
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+        z-index: 2;
+    }
+
+    .center-circle {
+        width: 65px; height: 65px;
+        background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: white; font-size: 26px;
+        border: 6px solid #050508;
+        box-shadow: 0 10px 25px rgba(244, 63, 94, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+        position: relative;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        will-change: transform;
+    }
+
+    .nav-center:hover .center-circle { transform: scale(1.1) translateY(-5px); box-shadow: 0 15px 35px rgba(244, 63, 94, 0.8), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
+
+    .cart-badge {
+        position: absolute; top: -4px; right: -4px;
+        background: #fff; color: #e11d48; font-size: 11px; font-weight: 900;
+        width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
+        border-radius: 50%; border: 2px solid #050508;
+        box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        display: none;
+    }
+
+    .ripple-effect {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 50%;
+        transform: scale(0);
+        animation: rippleAnim 0.5s ease-out forwards;
+        pointer-events: none;
+    }
+
+    @keyframes rippleAnim { to { transform: scale(3.5); opacity: 0; } }
+
+    .nav-page-label {
+        position: fixed; left: 50%; bottom: 100px; transform: translateX(-50%);
+        font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px;
+        color: rgba(255,255,255,0.15); pointer-events: none; z-index: 99999;
+    }
+
+    .bottom-nav.hidden { transform: translateX(-50%) translateY(150px); }
+</style>
+
+<script>
+(function() {
+    var p = window.location.pathname;
+    document.querySelectorAll('.nav-item').forEach(function(e) {
+        e.classList.remove('active');
+        var h = e.getAttribute('href');
+        if (h && p.includes(h.replace(/^(\.\.\/)+/,'').replace(/\.html$/,''))) e.classList.add('active');
+    });
+    var a = document.querySelector('.nav-item.active .nav-text');
+    if (a) { var l = document.createElement('div'); l.id = 'navPageLabel'; l.className = 'nav-page-label'; l.textContent = a.textContent; document.getElementById('bottomNav').after(l); }
+
+    document.querySelectorAll(".nav-item, .nav-center").forEach(function(b) {
+        b.addEventListener("click", function(e) {
+            var r = document.createElement("span");
+            r.className = "ripple-effect";
+            var rect = this.getBoundingClientRect(), size = Math.max(rect.width, rect.height);
+            r.style.cssText = "width:"+size+"px;height:"+size+"px;left:"+(e.clientX-rect.left-size/2)+"px;top:"+(e.clientY-rect.top-size/2)+"px";
+            this.appendChild(r);
+            setTimeout(function(){ r.remove() }, 500);
+            if (navigator.vibrate) navigator.vibrate(20);
+        });
+    });
+
+    var prev = 0, hidden = !1, bar = document.getElementById("bottomNav");
+    window.addEventListener("scroll", function() {
+        var c = window.pageYOffset, hide = c > prev && c > 80;
+        if (hide !== hidden) { bar.classList.toggle("hidden", hide); hidden = hide }
+        prev = c;
+    }, { passive: !0 });
+
+    window.updateCartBadge = function(n) {
+        var b = document.getElementById("cartBadge");
+        if (b) { b.textContent = n; b.style.display = n > 0 ? "flex" : "none" }
+    };
+})();
+</script>

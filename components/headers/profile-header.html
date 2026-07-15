@@ -1,0 +1,115 @@
+<nav id="nexusHeaderProfile" class="nexus-header-container">
+    <div class="header-brand-box" onclick="window.location.href='../home/home.html'">
+        <div class="header-icon-glow"><i class="fas fa-user-astronaut"></i></div>
+        <div class="header-titles">
+            <h1 class="header-main-title">Profile</h1>
+        </div>
+    </div>
+    <div class="header-actions-box">
+        <div class="auth-ui-logged-in" style="display:none">
+            <div class="header-wallet-btn" onclick="window.location.href='../wallet/wallet.html'">
+                <div class="wallet-icon-box"><i class="fas fa-wallet"></i></div>
+                <div class="wallet-amount-box">
+                    <span id="headerLiveBalance" class="balance-digits" data-inr="0">₹0.00</span>
+                </div>
+            </div>
+            <div class="header-notif-wrap">
+                <button class="header-notif-btn" onclick="window.openNotificationPopup()" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span id="notifBadge" class="notif-badge" style="display:none">0</span>
+                </button>
+            </div>
+            <button id="headerMenuToggleBtn" class="header-menu-btn" onclick="toggleNexusMenu()">
+                <i class="fas fa-bars-staggered pointer-events-none"></i>
+            </button>
+        </div>
+        <div class="auth-ui-logged-out" style="display:none">
+            <button class="header-login-btn" onclick="window.location.href='../index/index.html?tab=login'"><i class="fas fa-sign-in-alt"></i> LOGIN</button>
+            <button class="header-register-btn" onclick="window.location.href='../index/index.html?tab=register'"><i class="fas fa-user-plus"></i> REGISTER</button>
+        </div>
+    </div>
+</nav>
+
+<style>
+    .nexus-header-container { padding: 12px 20px; position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; width: 100%; background: rgba(10, 12, 18, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-bottom: 1px solid rgba(168, 85, 247, 0.2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 -1px 0 rgba(255,255,255,0.05); transition: all 0.3s ease; }
+    .header-brand-box { display: flex; align-items: center; gap: 12px; cursor: pointer; transition: transform 0.3s ease; }
+    .header-brand-box:active { transform: scale(0.95); }
+    .header-icon-glow { font-size: 26px; color: #a855f7; filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.9)); animation: pulseGlowProfile 2s infinite alternate; }
+    @keyframes pulseGlowProfile { 0% { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)); } 100% { filter: drop-shadow(0 0 16px rgba(168, 85, 247, 1)); } }
+    .header-main-title { font-size: 20px; font-weight: 900; color: white; letter-spacing: -0.5px; line-height: 1; }
+    .header-sub-title { font-size: 8px; letter-spacing: 3px; color: #64748b; font-weight: 800; text-transform: uppercase; display: block; margin-top: 2px; }
+    .header-actions-box { display: flex; align-items: center; gap: 15px; }
+    .header-wallet-btn { display: flex; align-items: center; background: linear-gradient(90deg, rgba(168, 85, 247, 0.15) 0%, rgba(88, 28, 135, 0.05) 100%); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 30px; padding: 4px 12px 4px 4px; cursor: pointer; box-shadow: 0 0 20px rgba(168, 85, 247, 0.2); transition: all 0.3s ease; max-width: 180px; }
+    .header-wallet-btn:hover { background: rgba(168, 85, 247, 0.25); box-shadow: 0 0 25px rgba(168, 85, 247, 0.4); transform: translateY(-1px); }
+    .wallet-icon-box { background: #a855f7; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 10px; margin-right: 8px; box-shadow: 0 0 10px rgba(168, 85, 247, 0.6); }
+    .wallet-amount-box { display: flex; align-items: baseline; min-width: 0; overflow: hidden; }
+    .balance-digits { font-size: 13px; color: white; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
+    .header-menu-btn { background: transparent; border: none; color: #cbd5e1; font-size: 24px; cursor: pointer; transition: all 0.3s ease; padding: 5px; }
+    .header-menu-btn:hover { color: white; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+    .header-menu-btn:active { transform: scale(0.85); }
+    .auth-ui-logged-in, .auth-ui-logged-out { display: flex; align-items: center; gap: 10px; }
+    .header-login-btn, .header-register-btn { padding: 8px 14px; border-radius: 30px; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: all 0.3s ease; border: none; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .header-login-btn { background: transparent; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.15); }
+    .header-login-btn:hover { background: rgba(255,255,255,0.05); color: #fff; border-color: rgba(168,85,247,0.4); }
+    .header-register-btn { background: linear-gradient(90deg, #a855f7, #7c3aed); color: #fff; box-shadow: 0 0 15px rgba(168,85,247,0.3); }
+    .header-register-btn:hover { box-shadow: 0 0 25px rgba(168,85,247,0.6); transform: translateY(-1px); }
+    .header-notif-wrap { position:relative; }
+    .header-notif-btn { background:transparent; border:none; color:#cbd5e1; font-size:20px; cursor:pointer; padding:5px; position:relative; transition:all 0.3s ease; }
+    .header-notif-btn:hover { color:#fff; text-shadow:0 0 10px rgba(255,255,255,0.5); }
+    .notif-badge { position:absolute; top:0; right:0; background:#ff2a5f; color:#fff; font-size:7px; font-weight:900; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 8px rgba(255,42,95,0.6); }
+</style>
+
+<script>
+    window.notifPopupOpen = false;
+    window.openNotificationPopup = function() {
+        const container = document.getElementById('notification-container');
+        if (container && window.notifPopupOpen) {
+            container.remove();
+            window.notifPopupOpen = false;
+            return;
+        }
+        if (container) container.remove();
+        const div = document.createElement('div');
+        div.id = 'notification-container';
+        document.body.appendChild(div);
+        window.notifPopupOpen = true;
+        const base = window.location.pathname.includes('/components/menubar/') ? '../..' : '../components';
+        loadComponentAndRunScripts(base + '/shell/notifications.html', 'notification-container');
+    };
+</script>
+<script type="module">
+    import { auth, db, ref, onValue, get, onAuthStateChanged } from "../../assets/scripts/core/firebase.js";
+    onAuthStateChanged(auth, (user) => {
+        const li = document.querySelector('.auth-ui-logged-in');
+        const lo = document.querySelector('.auth-ui-logged-out');
+        if (user) {
+            if (li) li.style.display = 'flex';
+            if (lo) lo.style.display = 'none';
+            const userRef = ref(db, `users/${user.uid}`);
+            onValue(userRef, (snap) => {
+                if(snap.exists()) {
+                    const el = document.getElementById('headerLiveBalance');
+                    if(el) { const b = parseFloat(snap.val().balance || 0); el.setAttribute('data-inr', b); el.textContent = window.formatPriceShort ? window.formatPriceShort(b) : '₹' + b.toFixed(2); }
+                }
+            });
+            onValue(ref(db, `notifications/${user.uid}`), async (snap) => {
+                const data = snap.val() || {};
+                const items = Object.values(data);
+                let unread = items.filter(n => !n.read).length;
+                try {
+                    const gSnap = await get(ref(db, 'global_alerts/promotions'));
+                    if (gSnap.exists()) {
+                        const seen = JSON.parse(localStorage.getItem('nexus_seen_global_' + user.uid)) || [];
+                        Object.keys(gSnap.val()).forEach(id => { if (!seen.includes(id)) unread++; });
+                    }
+                } catch(_) {}
+                try { if (localStorage.getItem('nexus_welcome_' + user.uid) === '1') unread++; } catch(_) {}
+                const badge = document.getElementById('notifBadge');
+                if (badge) { badge.textContent = unread; badge.style.display = unread > 0 ? 'flex' : 'none'; }
+            });
+        } else {
+            if (li) li.style.display = 'none';
+            if (lo) lo.style.display = 'flex';
+        }
+    });
+</script>

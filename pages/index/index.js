@@ -70,7 +70,7 @@ function A(e) {
 }
 const M = new URLSearchParams(window.location.search).get("ref") || null;
 
-function H(e, r) {
+function toggleEye(e, r) {
     e && r && (e.onclick = () => {
         "password" === r.type ? (r.type = "text", e.innerHTML = '<i class="fa-solid fa-eye-slash"></i>') : (r.type = "password", e.innerHTML = '<i class="fa-solid fa-eye"></i>')
     })
@@ -79,7 +79,7 @@ console.log("[REF] Referral param:", M), i && c && (i.onclick = () => {
     i.classList.add("active"), c.classList.remove("active"), l.classList.add("active"), d.classList.remove("active")
 }, c.onclick = () => {
     c.classList.add("active"), i.classList.remove("active"), d.classList.add("active"), l.classList.remove("active")
-}, "register" === new URLSearchParams(window.location.search).get("tab") && c.click()), H(B, u), H(I, E), H(R, h);
+}, "register" === new URLSearchParams(window.location.search).get("tab") && c.click()), toggleEye(B, u), toggleEye(I, E), toggleEye(R, h);
 const G = localStorage.getItem("nexusRememberEmail"), H = localStorage.getItem("nexusRememberPass");
 G && m && b && (m.value = G, u.value = H || "", b.checked = !0), onAuthStateChanged(auth, e => {
     e ? (T = e, console.log("[AUTH] Active session found. Redirecting to Dashboard..."), window.location.href = "../home/home.html") : x()

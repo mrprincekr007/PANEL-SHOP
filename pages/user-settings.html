@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Nexus Core | Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- HIGH-SPEED SPECULATIVE PRERENDER (0ms Instant Page Switch) -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://www.gstatic.com">
+    <script type="speculationrules">
+    {
+      "prerender": [
+        {
+          "source": "list",
+          "urls": [
+            "./home.html",
+            "./shop.html",
+            "./wallet.html",
+            "./profile.html",
+            "./helpdesk.html",
+            "./my-keys.html",
+            "./hwid-reset.html",
+            "./payment-settings.html",
+            "./referrals.html",
+            "./user-settings.html"
+          ],
+          "eagerness": "immediate"
+        }
+      ]
+    }
+    </script>
+</head>
+<body class="text-gray-300 font-sans overflow-x-hidden selection:bg-rose-600 selection:text-white relative">
+    <div class="premium-bg-container">
+        <div class="bg-orb bg-orb-1" style="background:#6b7280;"></div>
+        <div class="bg-orb bg-orb-2" style="background:#4b5563;"></div>
+        <div class="bg-grid-overlay"></div>
+    </div>
+    <!-- UNIVERSAL HEADER (INLINED) -->
+<nav id="nexusHeaderUniversal" class="nexus-header-container">
+    <div class="header-brand-box" onclick="history.back()">
+        <div class="header-icon-glow"><i class="fas fa-sliders"></i></div>
+        <div class="header-titles">
+            <h1 class="header-main-title">Settings</h1>
+        </div>
+    </div>
+    <div class="header-actions-box">
+        <div class="auth-ui-logged-in" style="display:none">
+            <div class="header-wallet-btn" onclick="window.location.href='./wallet.html'">
+                <div class="wallet-icon-box"><i class="fas fa-wallet"></i></div>
+                <div class="wallet-amount-box">
+                    <span id="headerLiveBalance" class="balance-digits" data-inr="0">₹0.00</span>
+                </div>
+            </div>
+            <div class="header-notif-wrap">
+                <button class="header-notif-btn" onclick="openNotificationPopup()" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span id="notifBadge" class="notif-badge" style="display:none">0</span>
+                </button>
+            </div>
+            <button id="headerMenuToggleBtn" class="header-menu-btn" onclick="toggleNexusMenu()">
+                <i class="fas fa-bars-staggered pointer-events-none"></i>
+            </button>
+        </div>
+        <div class="auth-ui-logged-out">
+            <button class="header-login-btn" onclick="window.location.href='./login.html?tab=login'"><i class="fas fa-sign-in-alt"></i> LOGIN</button>
+            <button class="header-register-btn" onclick="window.location.href='./login.html?tab=register'"><i class="fas fa-user-plus"></i> REGISTER</button>
+        </div>
+    </div>
+</nav>
+    <main class="w-full max-w-3xl mx-auto px-4 md:px-8 py-6 space-y-6 relative z-10">
+        <div class="text-center md:text-left">
+            <h1 class="text-2xl md:text-3xl font-black text-white tracking-tight">
+                <i class="fas fa-cog text-gray-400 mr-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"></i>
+                <span data-i18n="settingsPanel">Settings Panel</span>
+            </h1>
+            <p class="text-xs text-gray-500 mt-1" data-i18n="customize">Customize your experience</p>
+        </div>
+
+        <div class="premium-glass-card p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute -top-20 -right-20 w-48 h-48 bg-rose-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 text-lg">
+                        <i class="fas fa-user-pen"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black text-white uppercase tracking-wider" data-i18n="profile">Profile</h2>
+                        <p class="text-[10px] text-gray-500" data-i18n="profileDesc">Update your display name & avatar</p>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 mb-3">
+                    <input type="text" id="displayNameInput" class="flex-1 bg-black/60 border border-white/10 rounded-2xl px-5 py-3.5 text-sm text-white focus:outline-none focus:border-rose-500 focus:shadow-[0_0_15px_rgba(225,29,72,0.2)] transition-all placeholder-gray-600" data-i18n="enterName" data-i18n-type="placeholder" placeholder="Enter display name...">
+                    <button onclick="updateDisplayName()" id="nameSaveBtn" class="px-6 py-3.5 bg-gradient-to-r from-rose-600 to-rose-500 rounded-2xl font-black text-[10px] uppercase tracking-wider text-white shadow-[0_0_20px_rgba(225,29,72,0.4)] hover:shadow-[0_0_35px_rgba(225,29,72,0.7)] hover:translate-y-[-2px] transition-all duration-300 flex items-center gap-2 whitespace-nowrap">
+                        <i class="fas fa-floppy-disk"></i> <span data-i18n="save">Save</span>
+                    </button>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex-1 bg-black/30 border border-white/5 rounded-2xl px-5 py-3 text-xs text-gray-400 flex items-center gap-3">
+                        <i class="fas fa-envelope text-gray-600"></i>
+                        <span id="settingsEmail" class="text-white font-mono">Loading...</span>
+                    </div>
+                    <div class="bg-black/30 border border-white/5 rounded-2xl px-5 py-3 text-xs text-gray-400 flex items-center gap-3">
+                        <i class="fas fa-calendar text-gray-600"></i>
+                        <span id="settingsJoined" class="text-white font-mono">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="premium-glass-card p-6 md:p-8 relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-lg">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black text-white uppercase tracking-wider" data-i18n="appearance">Appearance</h2>
+                        <p class="text-[10px] text-gray-500" data-i18n="appearanceDesc">Theme, language & currency</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="bg-black/40 border border-white/5 rounded-2xl p-4">
+                        <p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2" data-i18n="theme">Theme</p>
+                        <div class="flex gap-2">
+                            <button onclick="setPref('theme','dark')" id="themeDark" class="flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider border transition setting-chip active-chip"><i class="fas fa-moon mr-1"></i> <span data-i18n="dark">Dark</span></button>
+                            <button onclick="setPref('theme','light')" id="themeLight" class="flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider border transition setting-chip"><i class="fas fa-sun mr-1"></i> <span data-i18n="light">Light</span></button>
+                        </div>
+                    </div>
+                    <div class="bg-black/40 border border-white/5 rounded-2xl p-4">
+                        <p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2" data-i18n="language">Language</p>
+                        <div class="flex gap-2">
+                            <button onclick="setPref('lang','en')" id="langEN" class="flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider border transition setting-chip active-chip">EN</button>
+                            <button onclick="setPref('lang','hi')" id="langHI" class="flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider border transition setting-chip">HI</button>
+                        </div>
+                    </div>
+                    <div class="bg-black/40 border border-white/5 rounded-2xl p-4">
+                        <p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2" data-i18n="currency">Currency</p>
+                        <div class="flex gap-2">
+                            <button onclick="setPref('currency','INR')" id="curINR" class="flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider border transition setting-chip active-chip">₹ INR</button>
+                            <button onclick="setPref('currency','USD')" id="curUSD" class="flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider border transition setting-chip">$ USD</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="premium-glass-card p-6 md:p-8 relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black text-white uppercase tracking-wider" data-i18n="notifications">Notifications</h2>
+                        <p class="text-[10px] text-gray-500" data-i18n="notifDesc">Alerts & delivery channels</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="setting-toggle">
+                        <div class="setting-toggle-left">
+                            <i class="fas fa-shopping-bag text-emerald-400 text-sm"></i>
+                            <div>
+                                <p class="text-xs font-bold text-white"><span data-i18n="purchaseAlerts">Purchase Alerts</span></p>
+                                <p class="text-[9px] text-gray-500" data-i18n="purchaseAlertsDesc">When a purchase succeeds or fails</p>
+                            </div>
+                        </div>
+                        <div class="toggle-track" data-key="notifPurchases" onclick="toggleSwitch(this)">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </label>
+                    <label class="setting-toggle">
+                        <div class="setting-toggle-left">
+                            <i class="fas fa-wallet text-blue-400 text-sm"></i>
+                            <div>
+                                <p class="text-xs font-bold text-white"><span data-i18n="depositConfirm">Deposit Confirmations</span></p>
+                                <p class="text-[9px] text-gray-500" data-i18n="depositConfirmDesc">When funds are credited</p>
+                            </div>
+                        </div>
+                        <div class="toggle-track" data-key="notifDeposits" onclick="toggleSwitch(this)">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </label>
+                    <label class="setting-toggle">
+                        <div class="setting-toggle-left">
+                            <i class="fas fa-tags text-amber-400 text-sm"></i>
+                            <div>
+                                <p class="text-xs font-bold text-white"><span data-i18n="promotions">Promotions & Offers</span></p>
+                                <p class="text-[9px] text-gray-500" data-i18n="promotionsDesc">Discounts, sales & bonus alerts</p>
+                            </div>
+                        </div>
+                        <div class="toggle-track" data-key="notifPromotions" onclick="toggleSwitch(this)">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </label>
+                    <label class="setting-toggle">
+                        <div class="setting-toggle-left">
+                            <i class="fas fa-envelope text-rose-400 text-sm"></i>
+                            <div>
+                                <p class="text-xs font-bold text-white"><span data-i18n="emailNotif">Email Notifications</span></p>
+                                <p class="text-[9px] text-gray-500" data-i18n="emailNotifDesc">Receive updates via email</p>
+                            </div>
+                        </div>
+                        <div class="toggle-track" data-key="notifEmail" onclick="toggleSwitch(this)">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </label>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="premium-glass-card p-6 md:p-8 relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg">
+                        <i class="fas fa-sliders"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black text-white uppercase tracking-wider" data-i18n="preferences">Preferences</h2>
+                        <p class="text-[10px] text-gray-500" data-i18n="prefsDesc">Auto actions & default choices</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="setting-toggle">
+                        <div class="setting-toggle-left">
+                            <i class="fas fa-key text-cyan-400 text-sm"></i>
+                            <div>
+                                <p class="text-xs font-bold text-white"><span data-i18n="autoLogin">Auto Login</span></p>
+                                <p class="text-[9px] text-gray-500" data-i18n="autoLoginDesc">Stay logged in across sessions</p>
+                            </div>
+                        </div>
+                        <div class="toggle-track" data-key="autoLogin" onclick="toggleSwitch(this)">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </label>
+                    <label class="setting-toggle">
+                        <div class="setting-toggle-left">
+                            <i class="fas fa-credit-card text-emerald-400 text-sm"></i>
+                            <div>
+                                <p class="text-xs font-bold text-white"><span data-i18n="defaultPay">Default Payment</span></p>
+                                <p class="text-[9px] text-gray-500" data-i18n="defaultPayDesc">Preferred payment method</p>
+                            </div>
+                        </div>
+                        <select id="defaultPayment" onchange="saveDefaultPayment(this.value)" class="bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-[10px] text-white font-mono focus:outline-none focus:border-emerald-500 transition">
+                            <option value="auto">UPI (Auto)</option>
+                            <option value="manual">Manual QR</option>
+                            <option value="crypto">Crypto</option>
+                        </select>
+                    </label>
+                    <label class="setting-toggle">
+                        <div class="setting-toggle-left">
+                            <i class="fas fa-bell-slash text-amber-400 text-sm"></i>
+                            <div>
+                                <p class="text-xs font-bold text-white"><span data-i18n="minDeposit">Min Deposit Alert</span></p>
+                                <p class="text-[9px] text-gray-500" data-i18n="minDepositDesc">Minimum ₹ amount to notify</p>
+                            </div>
+                        </div>
+                        <input type="number" id="minDepositAlert" onchange="saveMinDeposit(this.value)" class="w-20 bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-[10px] text-white font-mono text-center focus:outline-none focus:border-amber-500 transition" placeholder="0" min="0" step="10">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="premium-glass-card p-6 md:p-8 relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-lg">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black text-white uppercase tracking-wider" data-i18n="security">Security</h2>
+                        <p class="text-[10px] text-gray-500" data-i18n="securityDesc">Account protection & sessions</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between bg-black/30 border border-white/5 rounded-2xl px-5 py-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-key text-amber-400"></i>
+                            <div>
+                                <p class="text-xs font-bold text-white"><span data-i18n="password">Password</span></p>
+                                <p class="text-[9px] text-gray-500" data-i18n="passwordDesc">Send reset link to your email</p>
+                            </div>
+                        </div>
+                        <button onclick="resetPassword()" class="px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-xl text-[9px] font-black text-amber-400 hover:bg-amber-500/20 transition uppercase tracking-wider"><span data-i18n="reset">Reset</span></button>
+                    </div>
+                    <div class="flex items-center justify-between bg-black/30 border border-white/5 rounded-2xl px-5 py-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-clock-rotate text-blue-400"></i>
+                            <div>
+                                <p class="text-xs font-bold text-white"><span data-i18n="lastLogin">Last Login</span></p>
+                                <p class="text-[9px] text-gray-500" id="lastLoginText" data-i18n="loading">Loading...</p>
+                            </div>
+                        </div>
+                        <span id="lastLoginBadge" class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-[9px] font-black text-emerald-400" data-i18n="active">Active</span>
+                    </div>
+                    <div class="flex items-center justify-between bg-black/30 border border-white/5 rounded-2xl px-5 py-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-qrcode text-purple-400"></i>
+                            <div>
+                                <p class="text-xs font-bold text-white"><span data-i18n="twoFactor">Two-Factor Auth</span></p>
+                                <p class="text-[9px] text-gray-500" data-i18n="twoFactorDesc">Add extra layer of security</p>
+                            </div>
+                        </div>
+                        <button onclick="showToast('2FA coming soon!', 'info')" class="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-xl text-[9px] font-black text-purple-400 hover:bg-purple-500/20 transition uppercase tracking-wider"><span data-i18n="enable">Enable</span></button>
+                    </div>
+                    <div class="flex items-center justify-between bg-black/30 border border-white/5 rounded-2xl px-5 py-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-right-from-bracket text-rose-400"></i>
+                            <div>
+                                <p class="text-xs font-bold text-white"><span data-i18n="sessions">Active Sessions</span></p>
+                                <p class="text-[9px] text-gray-500" id="activeSessionText" data-i18n="sessionsDesc">Currently logged in browsers</p>
+                            </div>
+                        </div>
+                        <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-[9px] font-black text-emerald-400">1 Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="premium-glass-card p-6 md:p-8 relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black text-white uppercase tracking-wider" data-i18n="referral">Referral</h2>
+                        <p class="text-[10px] text-gray-500" data-i18n="referralDesc">Share & earn rewards</p>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="referralLinkDisplay" class="flex-1 bg-black/60 border border-white/10 rounded-2xl px-5 py-3.5 text-sm text-white font-mono focus:outline-none select-all" readonly placeholder="Loading referral link...">
+                    <button onclick="copyReferralLink()" class="px-6 py-3.5 bg-gradient-to-r from-cyan-600 to-cyan-500 rounded-2xl font-black text-[10px] uppercase tracking-wider text-white shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_35px_rgba(6,182,212,0.7)] hover:translate-y-[-2px] transition-all duration-300 flex items-center gap-2 whitespace-nowrap">
+                        <i class="fas fa-copy"></i> <span data-i18n="copy">Copy</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="premium-glass-card p-6 md:p-8 relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-gray-500/10 border border-gray-500/20 flex items-center justify-center text-gray-400 text-lg">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black text-white uppercase tracking-wider" data-i18n="data">Data</h2>
+                        <p class="text-[10px] text-gray-500" data-i18n="dataDesc">Export or manage your data</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="exportAccountData()" class="flex-1 min-w-[140px] px-5 py-3.5 bg-blue-500/10 border border-blue-500/30 rounded-2xl text-[10px] font-black text-blue-400 hover:bg-blue-500/20 transition flex items-center justify-center gap-2">
+                        <i class="fas fa-download"></i> <span data-i18n="exportData">Export Data</span>
+                    </button>
+                    <button onclick="showToast('Data cleared from local cache', 'success')" class="flex-1 min-w-[140px] px-5 py-3.5 bg-orange-500/10 border border-orange-500/30 rounded-2xl text-[10px] font-black text-orange-400 hover:bg-orange-500/20 transition flex items-center justify-center gap-2">
+                        <i class="fas fa-broom"></i> <span data-i18n="clearCache">Clear Cache</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- USER MENU DROPDOWN (INLINED) -->
+<div class="glass-dropdown-box" id="nexusDropdownMenu">
+    <div class="dropdown-header">
+        <div class="dd-avatar-box">
+            <span id="ddAvatar">U</span>
+        </div>
+        <div class="dd-user-info">
+            <h4 id="ddName">Client Node</h4>
+            <p id="ddEmail">Loading data...</p>
+        </div>
+    </div>
+    <div class="dropdown-body">
+        <a href="./hwid-reset.html" class="dd-item group">
+            <i class="fas fa-microchip icon-purple"></i>
+            <span>HWID Reset</span>
+        </a>
+        <a href="./my-keys.html" class="dd-item group">
+            <i class="fas fa-key icon-blue"></i>
+            <span>My Keys</span>
+        </a>
+        <a href="./referrals.html" class="dd-item group">
+            <i class="fas fa-users icon-emerald"></i>
+            <span>Refer & Earn</span>
+        </a>
+        <a href="./helpdesk.html" class="dd-item group">
+            <i class="fas fa-headset icon-yellow"></i>
+            <span>Helpdesk</span>
+        </a>
+        <a href="./user-settings.html" class="dd-item group">
+            <i class="fas fa-cog icon-gray"></i>
+            <span>App Settings</span>
+        </a>
+        <a href="./payment-settings.html" class="dd-item group" id="adminPanelLink" style="display:none">
+            <i class="fas fa-shield-alt icon-yellow"></i>
+            <span>Admin Settings</span>
+        </a>
+    </div>
+    <div class="dropdown-footer">
+        <button id="ddLogoutBtn" class="dd-logout-btn">
+            <i class="fas fa-sign-out-alt mr-2"></i> Secure Logout
+        </button>
+    </div>
+</div>
+<!-- NOTIFICATIONS OVERLAY & POPUP (INLINED) -->
+<div id="notifOverlay" class="notif-overlay" onclick="closeNotifPopup(event)">
+    <div class="notif-popup" onclick="event.stopPropagation()">
+        <div class="notif-popup-header">
+            <div class="notif-popup-title"><i class="fas fa-bell" style="color:#00f0ff;"></i> Notifications</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <button class="notif-mark-all-btn" onclick="markAllRead()">Clear all</button>
+                <button class="notif-close-btn" onclick="closeNotifPopup()"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div id="notifPopupList" class="notif-popup-list">
+            <div style="text-align:center;padding:40px;color:rgba(255,255,255,0.15);font-size:12px;">Loading...</div>
+        </div>
+    </div>
+</div>
+    <!-- BOTTOM NAVIGATION (INLINED) -->
+<nav id="bottomNav" class="bottom-nav">
+    <a href="./home.html" class="nav-item" id="navHome">
+        <i class="fa-solid fa-house nav-icon"></i>
+        <span class="nav-text" data-i18n="home">Home</span>
+    </a>
+    <a href="./shop.html" class="nav-item" id="navStore">
+        <i class="fa-solid fa-layer-group nav-icon"></i>
+        <span class="nav-text" data-i18n="store">Store</span>
+    </a>
+    <a href="./shop.html" class="nav-center" id="navCenter">
+        <div class="center-circle">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cartBadge" class="cart-badge">0</span>
+        </div>
+    </a>
+    <a href="./wallet.html" class="nav-item" id="navWallet">
+        <i class="fa-solid fa-wallet nav-icon"></i>
+        <span class="nav-text" data-i18n="wallet">Wallet</span>
+    </a>
+    <a href="./profile.html" class="nav-item" id="navProfile">
+        <i class="fa-solid fa-user-astronaut nav-icon"></i>
+        <span class="nav-text" data-i18n="profile">Profile</span>
+    </a>
+</nav>
+    <div id="toastContainer" class="fixed top-20 right-4 z-[99999] flex flex-col gap-2 pointer-events-none"></div>
+        
+    <script type="module" src="../js/user-settings.js"></script>
+</body>
+</html>

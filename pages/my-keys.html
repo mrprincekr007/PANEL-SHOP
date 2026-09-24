@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Nexus Core | My Keys</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- HIGH-SPEED SPECULATIVE PRERENDER (0ms Instant Page Switch) -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://www.gstatic.com">
+    <script type="speculationrules">
+    {
+      "prerender": [
+        {
+          "source": "list",
+          "urls": [
+            "./home.html",
+            "./shop.html",
+            "./wallet.html",
+            "./profile.html",
+            "./helpdesk.html",
+            "./my-keys.html",
+            "./hwid-reset.html",
+            "./payment-settings.html",
+            "./referrals.html",
+            "./user-settings.html"
+          ],
+          "eagerness": "immediate"
+        }
+      ]
+    }
+    </script>
+</head>
+<body class="text-gray-300 font-sans overflow-x-hidden selection:bg-purple-600 selection:text-white relative">
+    <div class="premium-bg-container">
+        <div class="bg-orb bg-orb-1" style="background:#7c3aed;"></div>
+        <div class="bg-orb bg-orb-2" style="background:#2563eb;"></div>
+        <div class="bg-grid-overlay"></div>
+    </div>
+    
+    <!-- UNIVERSAL HEADER (INLINED) -->
+<nav id="nexusHeaderUniversal" class="nexus-header-container">
+    <div class="header-brand-box" onclick="history.back()">
+        <div class="header-icon-glow"><i class="fas fa-key"></i></div>
+        <div class="header-titles">
+            <h1 class="header-main-title">My Keys</h1>
+        </div>
+    </div>
+    <div class="header-actions-box">
+        <div class="auth-ui-logged-in" style="display:none">
+            <div class="header-wallet-btn" onclick="window.location.href='./wallet.html'">
+                <div class="wallet-icon-box"><i class="fas fa-wallet"></i></div>
+                <div class="wallet-amount-box">
+                    <span id="headerLiveBalance" class="balance-digits" data-inr="0">₹0.00</span>
+                </div>
+            </div>
+            <div class="header-notif-wrap">
+                <button class="header-notif-btn" onclick="openNotificationPopup()" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span id="notifBadge" class="notif-badge" style="display:none">0</span>
+                </button>
+            </div>
+            <button id="headerMenuToggleBtn" class="header-menu-btn" onclick="toggleNexusMenu()">
+                <i class="fas fa-bars-staggered pointer-events-none"></i>
+            </button>
+        </div>
+        <div class="auth-ui-logged-out">
+            <button class="header-login-btn" onclick="window.location.href='./login.html?tab=login'"><i class="fas fa-sign-in-alt"></i> LOGIN</button>
+            <button class="header-register-btn" onclick="window.location.href='./login.html?tab=register'"><i class="fas fa-user-plus"></i> REGISTER</button>
+        </div>
+    </div>
+</nav>
+    
+    <main class="w-full max-w-3xl mx-auto px-4 md:px-8 py-6 space-y-6 relative z-10">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-black text-white tracking-tight">
+                    <i class="fas fa-key text-purple-400 mr-2 drop-shadow-[0_0_8px_rgba(124,58,237,0.6)]"></i>
+                    My <span class="text-purple-400">Keys</span>
+                </h1>
+                <p class="text-xs text-gray-500 mt-1">All your purchased license keys with validity status</p>
+            </div>
+            <span id="keyCount" class="bg-purple-600/10 text-purple-400 border border-purple-500/30 px-4 py-2 rounded-lg text-xs font-black"></span>
+        </div>
+        
+        <div id="keysContainer" class="space-y-4">
+            <div class="flex flex-col items-center justify-center py-16 opacity-60">
+                <i class="fas fa-circle-notch animate-spin text-4xl text-purple-500 mb-4"></i>
+                <p class="text-[10px] font-mono uppercase tracking-widest text-gray-400">Loading your keys...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- USER MENU DROPDOWN (INLINED) -->
+<div class="glass-dropdown-box" id="nexusDropdownMenu">
+    <div class="dropdown-header">
+        <div class="dd-avatar-box">
+            <span id="ddAvatar">U</span>
+        </div>
+        <div class="dd-user-info">
+            <h4 id="ddName">Client Node</h4>
+            <p id="ddEmail">Loading data...</p>
+        </div>
+    </div>
+    <div class="dropdown-body">
+        <a href="./hwid-reset.html" class="dd-item group">
+            <i class="fas fa-microchip icon-purple"></i>
+            <span>HWID Reset</span>
+        </a>
+        <a href="./my-keys.html" class="dd-item group">
+            <i class="fas fa-key icon-blue"></i>
+            <span>My Keys</span>
+        </a>
+        <a href="./referrals.html" class="dd-item group">
+            <i class="fas fa-users icon-emerald"></i>
+            <span>Refer & Earn</span>
+        </a>
+        <a href="./helpdesk.html" class="dd-item group">
+            <i class="fas fa-headset icon-yellow"></i>
+            <span>Helpdesk</span>
+        </a>
+        <a href="./user-settings.html" class="dd-item group">
+            <i class="fas fa-cog icon-gray"></i>
+            <span>App Settings</span>
+        </a>
+        <a href="./payment-settings.html" class="dd-item group" id="adminPanelLink" style="display:none">
+            <i class="fas fa-shield-alt icon-yellow"></i>
+            <span>Admin Settings</span>
+        </a>
+    </div>
+    <div class="dropdown-footer">
+        <button id="ddLogoutBtn" class="dd-logout-btn">
+            <i class="fas fa-sign-out-alt mr-2"></i> Secure Logout
+        </button>
+    </div>
+</div>
+<!-- NOTIFICATIONS OVERLAY & POPUP (INLINED) -->
+<div id="notifOverlay" class="notif-overlay" onclick="closeNotifPopup(event)">
+    <div class="notif-popup" onclick="event.stopPropagation()">
+        <div class="notif-popup-header">
+            <div class="notif-popup-title"><i class="fas fa-bell" style="color:#00f0ff;"></i> Notifications</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <button class="notif-mark-all-btn" onclick="markAllRead()">Clear all</button>
+                <button class="notif-close-btn" onclick="closeNotifPopup()"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div id="notifPopupList" class="notif-popup-list">
+            <div style="text-align:center;padding:40px;color:rgba(255,255,255,0.15);font-size:12px;">Loading...</div>
+        </div>
+    </div>
+</div>
+    <!-- BOTTOM NAVIGATION (INLINED) -->
+<nav id="bottomNav" class="bottom-nav">
+    <a href="./home.html" class="nav-item" id="navHome">
+        <i class="fa-solid fa-house nav-icon"></i>
+        <span class="nav-text" data-i18n="home">Home</span>
+    </a>
+    <a href="./shop.html" class="nav-item" id="navStore">
+        <i class="fa-solid fa-layer-group nav-icon"></i>
+        <span class="nav-text" data-i18n="store">Store</span>
+    </a>
+    <a href="./shop.html" class="nav-center" id="navCenter">
+        <div class="center-circle">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cartBadge" class="cart-badge">0</span>
+        </div>
+    </a>
+    <a href="./wallet.html" class="nav-item" id="navWallet">
+        <i class="fa-solid fa-wallet nav-icon"></i>
+        <span class="nav-text" data-i18n="wallet">Wallet</span>
+    </a>
+    <a href="./profile.html" class="nav-item" id="navProfile">
+        <i class="fa-solid fa-user-astronaut nav-icon"></i>
+        <span class="nav-text" data-i18n="profile">Profile</span>
+    </a>
+</nav>
+    <div id="toastContainer" class="fixed top-20 right-4 z-[99999] flex flex-col gap-2 pointer-events-none"></div>
+
+    
+
+        
+    <script type="module" src="../js/my-keys.js"></script>
+</body>
+</html>

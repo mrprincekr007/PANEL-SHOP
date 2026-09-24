@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Nexus Core | Wallet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/ZapUPI/ZapUPI-JS-SDK@main/zapupi.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- HIGH-SPEED SPECULATIVE PRERENDER (0ms Instant Page Switch) -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://www.gstatic.com">
+    <script type="speculationrules">
+    {
+      "prerender": [
+        {
+          "source": "list",
+          "urls": [
+            "./home.html",
+            "./shop.html",
+            "./wallet.html",
+            "./profile.html",
+            "./helpdesk.html",
+            "./my-keys.html",
+            "./hwid-reset.html",
+            "./payment-settings.html",
+            "./referrals.html",
+            "./user-settings.html"
+          ],
+          "eagerness": "immediate"
+        }
+      ]
+    }
+    </script>
+</head>
+<body class="text-gray-300 font-sans overflow-x-hidden selection:bg-rose-500 selection:text-white relative">
+    
+    <div class="premium-bg-container">
+        <div class="bg-orb bg-orb-1" style="background:#059669;"></div>
+        <div class="bg-orb bg-orb-2" style="background:#10b981;"></div>
+        <div class="bg-grid-overlay"></div>
+    </div>
+
+    <!-- INJECTED HEADER -->
+    <!-- UNIVERSAL HEADER (INLINED) -->
+<nav id="nexusHeaderUniversal" class="nexus-header-container">
+    <div class="header-brand-box" onclick="window.location.href='./home.html'">
+        <div class="header-icon-glow"><i class="fas fa-wallet"></i></div>
+        <div class="header-titles">
+            <h1 class="header-main-title">Wallet</h1>
+        </div>
+    </div>
+    <div class="header-actions-box">
+        <div class="auth-ui-logged-in" style="display:none">
+            <div class="header-wallet-btn" onclick="window.location.href='./wallet.html'">
+                <div class="wallet-icon-box"><i class="fas fa-wallet"></i></div>
+                <div class="wallet-amount-box">
+                    <span id="headerLiveBalance" class="balance-digits" data-inr="0">₹0.00</span>
+                </div>
+            </div>
+            <div class="header-notif-wrap">
+                <button class="header-notif-btn" onclick="openNotificationPopup()" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span id="notifBadge" class="notif-badge" style="display:none">0</span>
+                </button>
+            </div>
+            <button id="headerMenuToggleBtn" class="header-menu-btn" onclick="toggleNexusMenu()">
+                <i class="fas fa-bars-staggered pointer-events-none"></i>
+            </button>
+        </div>
+        <div class="auth-ui-logged-out">
+            <button class="header-login-btn" onclick="window.location.href='./login.html?tab=login'"><i class="fas fa-sign-in-alt"></i> LOGIN</button>
+            <button class="header-register-btn" onclick="window.location.href='./login.html?tab=register'"><i class="fas fa-user-plus"></i> REGISTER</button>
+        </div>
+    </div>
+</nav>
+
+    <main class="w-full max-w-xl mx-auto px-4 py-6 space-y-6 relative z-10">
+        
+        <!-- WALLET HERO BALANCE -->
+        <div class="wallet-balance-card p-6 md:p-8 rounded-3xl relative overflow-hidden flex flex-col items-center justify-center text-center shadow-2xl">
+            <div class="absolute -top-10 -left-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <span class="text-[10px] font-black text-gray-400 tracking-widest uppercase mb-1">Total Available Balance</span>
+            <h1 class="text-4xl md:text-5xl font-black text-white font-mono tracking-tight drop-shadow-md mb-2">
+                <span id="mainBalance" data-inr="0">₹0.00</span>
+            </h1>
+            <p class="text-[10px] font-mono text-gray-500 tracking-widest">UID: <span id="walletUid" class="text-emerald-400 font-bold">GUEST</span></p>
+        </div>
+
+        <!-- STATS ROW -->
+        <div class="wallet-stats-grid">
+            <div class="stat-card balance-card">
+                <div class="stat-icon" style="background:rgba(16,185,129,0.1);color:#10b981;"><i class="fas fa-wallet"></i></div>
+                <div class="stat-info">
+                    <h4>Wallet Balance</h4>
+                    <h2><span id="statBalance" data-inr="0">₹0.00</span></h2>
+                </div>
+            </div>
+            <div class="stat-card today-card">
+                <div class="stat-icon" style="background:rgba(59,130,246,0.1);color:#3b82f6;"><i class="fas fa-calendar-day"></i></div>
+                <div class="stat-info">
+                    <h4>Today Deposit</h4>
+                    <h2><span id="statToday" data-inr="0">₹0.00</span></h2>
+                </div>
+            </div>
+            <div class="stat-card total-card">
+                <div class="stat-icon" style="background:rgba(139,92,246,0.1);color:#8b5cf6;"><i class="fas fa-arrow-down"></i></div>
+                <div class="stat-info">
+                    <h4>Total Deposit</h4>
+                    <h2><span id="statTotal" data-inr="0">₹0.00</span></h2>
+                </div>
+            </div>
+            <div class="stat-card pending-card">
+                <div class="stat-icon" style="background:rgba(234,179,8,0.1);color:#eab308;"><i class="fas fa-clock"></i></div>
+                <div class="stat-info">
+                    <h4>Pending Deposit</h4>
+                    <h2><span id="statPending" data-inr="0">₹0.00</span></h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- DEPOSIT SECTION -->
+        <section id="depositSection" class="bg-[#0a0c12]/90 backdrop-blur-md border border-gray-800/80 rounded-2xl p-5 md:p-6 shadow-xl relative z-20">
+            <h3 class="text-sm font-black text-white uppercase tracking-wider mb-5 border-b border-gray-800/50 pb-3"><i class="fas fa-money-bill-transfer text-emerald-500 mr-2"></i>Deposit Gateway</h3>
+            
+            <div id="paymentTabsContainer" class="flex bg-black border border-gray-800 rounded-xl p-1 mb-6">
+                <button onclick="switchTab('auto')" id="tab-auto" class="flex-1 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition payment-tab">UPI (Auto)</button>
+                <button onclick="switchTab('manual')" id="tab-manual" class="flex-1 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition payment-tab">Manual QR</button>
+                <button onclick="switchTab('crypto')" id="tab-crypto" class="flex-1 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition payment-tab">Crypto</button>
+            </div>
+            
+            <div id="noPaymentMsg" class="hidden text-center py-8">
+                <i class="fas fa-lock text-rose-500 text-3xl mb-3"></i>
+                <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Login to deposit funds</p>
+                <button onclick="window.location.href='./login.html?tab=login'" class="mt-4 px-6 py-2.5 bg-gradient-to-r from-rose-600 to-rose-500 rounded-xl font-black text-[10px] uppercase tracking-wider text-white shadow-[0_0_15px rgba(225,29,72,0.4)] cursor-pointer"><i class="fas fa-lock mr-2"></i>LOGIN TO DEPOSIT</button>
+            </div>
+
+            <!-- 1. AUTO UPI -->
+            <div id="content-auto" class="tab-content">
+                <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl mb-4 text-center">
+                    <i class="fas fa-bolt text-emerald-500 text-2xl mb-2 animate-pulse"></i>
+                    <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Instant Auto-Addition via ZapUPI.</p>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1.5">Enter Amount (₹)</label>
+                        <input type="number" id="autoAmount" class="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition shadow-inner font-mono" placeholder="Enter Amount">
+                    </div>
+                    <div>
+                        <label class="block text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1.5">WhatsApp / Phone Number</label>
+                        <input type="tel" id="autoPhone" class="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition shadow-inner font-mono" placeholder="10-digit number">
+                    </div>
+                    <button id="payAutoBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3.5 rounded-xl text-xs uppercase tracking-widest transition shadow-[0_0_15px_rgba(16,185,129,0.4)]">
+                        Pay via UPI App
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. MANUAL QR & 1-CLICK UPI INTENT -->
+            <div id="content-manual" class="tab-content hidden">
+                <div class="flex flex-col items-center justify-center bg-black/60 border border-gray-800 rounded-xl p-5 mb-4">
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-3">Scan QR or Pay via 1-Click UPI App</p>
+                    <div class="w-36 h-36 bg-white p-2 rounded-xl mb-3">
+                        <img id="manualQRImage" src="" alt="QR Code" class="w-full h-full object-contain">
+                    </div>
+                    <div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg">
+                        <span class="text-xs text-emerald-400 font-mono font-bold select-all" id="manualUPIID">Loading...</span>
+                        <button type="button" onclick="window.copyUPI()" class="text-emerald-400 hover:text-white text-xs p-1" title="Copy UPI ID"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+
+                <!-- Quick Amount Chips -->
+                <div class="mb-4">
+                    <label class="block text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2">Quick Select Amount</label>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button type="button" onclick="window.setManualAmt(100)" class="py-2 bg-white/5 border border-white/10 hover:border-emerald-500 rounded-lg text-xs font-mono font-bold text-white transition">₹100</button>
+                        <button type="button" onclick="window.setManualAmt(250)" class="py-2 bg-white/5 border border-white/10 hover:border-emerald-500 rounded-lg text-xs font-mono font-bold text-white transition">₹250</button>
+                        <button type="button" onclick="window.setManualAmt(500)" class="py-2 bg-white/5 border border-white/10 hover:border-emerald-500 rounded-lg text-xs font-mono font-bold text-white transition">₹500</button>
+                        <button type="button" onclick="window.setManualAmt(1000)" class="py-2 bg-white/5 border border-white/10 hover:border-emerald-500 rounded-lg text-xs font-mono font-bold text-white transition">₹1,000</button>
+                    </div>
+                </div>
+
+                <!-- 1-Click Mobile UPI App Launchers -->
+                <div class="mb-5 bg-white/5 border border-white/10 rounded-xl p-3.5">
+                    <span class="block text-[9px] font-black text-purple-400 uppercase tracking-widest mb-2"><i class="fas fa-bolt mr-1"></i> 1-Click Mobile App Launch</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button type="button" onclick="window.launchUPIApp('phonepe')" class="py-2.5 px-3 bg-[#5f259f]/30 hover:bg-[#5f259f]/60 border border-[#5f259f]/60 rounded-xl text-xs font-black text-white flex items-center justify-center gap-2 transition">
+                            <i class="fas fa-mobile-screen"></i> PhonePe
+                        </button>
+                        <button type="button" onclick="window.launchUPIApp('gpay')" class="py-2.5 px-3 bg-blue-600/30 hover:bg-blue-600/60 border border-blue-500/50 rounded-xl text-xs font-black text-white flex items-center justify-center gap-2 transition">
+                            <i class="fab fa-google"></i> Google Pay
+                        </button>
+                        <button type="button" onclick="window.launchUPIApp('paytm')" class="py-2.5 px-3 bg-sky-600/30 hover:bg-sky-600/60 border border-sky-500/50 rounded-xl text-xs font-black text-white flex items-center justify-center gap-2 transition">
+                            <i class="fas fa-wallet"></i> Paytm
+                        </button>
+                        <button type="button" onclick="window.launchUPIApp('any')" class="py-2.5 px-3 bg-emerald-600/30 hover:bg-emerald-600/60 border border-emerald-500/50 rounded-xl text-xs font-black text-white flex items-center justify-center gap-2 transition">
+                            <i class="fas fa-qrcode"></i> Any UPI App
+                        </button>
+                    </div>
+                </div>
+
+                <form id="manualDepositForm" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">Amount (₹)</label>
+                            <input type="number" id="manualAmount" required class="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-rose-500 transition font-mono" placeholder="Amount (₹)">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">12-Digit UTR Number</label>
+                            <input type="text" id="manualUtr" required class="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-rose-500 transition font-mono" placeholder="12-Digit UTR">
+                        </div>
+                    </div>
+                    <button type="submit" id="submitManualBtn" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-black py-3.5 rounded-xl text-xs uppercase tracking-widest transition shadow-[0_0_15px_rgba(225,29,72,0.4)]">
+                        Submit UTR for Verification
+                    </button>
+                </form>
+            </div>
+
+            <!-- 3. CRYPTO DEPOSIT -->
+            <div id="content-crypto" class="tab-content hidden">
+                <div class="bg-yellow-500/10 border border-yellow-500/20 p-4 rounded-xl mb-4 text-center">
+                    <i class="fab fa-bitcoin text-yellow-500 text-2xl mb-2"></i>
+                    <p class="text-[10px] text-yellow-400 font-bold uppercase tracking-widest">USDT / Binance Pay. Rate: 1 USDT = ₹<span id="cryptoRate">88.00</span></p>
+                </div>
+                <div class="flex flex-col items-center bg-black border border-gray-800 rounded-xl p-5 mb-4">
+                    <img id="cryptoQRImage" src="" alt="Crypto QR" class="w-40 h-40 object-contain bg-white p-2 rounded-xl mb-3">
+                    <div class="w-full space-y-3">
+                        <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl">
+                            <span class="text-[9px] text-gray-500 font-bold uppercase">Binance Pay ID</span>
+                            <strong id="cryptoPayID" class="text-[12px] text-yellow-400 font-mono">Loading...</strong>
+                        </div>
+                        <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl">
+                            <span class="text-[9px] text-gray-500 font-bold uppercase">USDT Address (TRC20)</span>
+                            <strong id="cryptoAddress" class="text-[12px] text-yellow-400 font-mono">Loading...</strong>
+                        </div>
+                    </div>
+                    <button id="cryptoPaidBtn" class="w-full bg-yellow-600 hover:bg-yellow-500 text-white font-black py-3.5 rounded-xl text-xs uppercase tracking-widest transition shadow-[0_0_15px_rgba(234,179,8,0.4)] mt-4">
+                        <i class="fas fa-check-circle mr-2"></i> I Have Paid
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRANSACTION HISTORY SECTION -->
+        <section class="bg-[#0a0c12]/90 backdrop-blur-md border border-gray-800/80 rounded-2xl p-5 shadow-xl relative z-20">
+            <div class="flex justify-between items-center mb-5 border-b border-gray-800/50 pb-3">
+                <h3 class="text-sm font-black text-white uppercase tracking-wider"><i class="fas fa-list-check text-blue-500 mr-2"></i>Ledger History</h3>
+            </div>
+            
+            <div id="transactionList" class="space-y-3">
+                <div class="flex flex-col items-center justify-center py-10 opacity-50">
+                    <i class="fas fa-circle-notch animate-spin text-2xl text-blue-500 mb-3"></i>
+                    <p class="text-[9px] font-mono uppercase tracking-widest text-gray-400">Fetching Ledger...</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="toast-container"></div>
+    <div id="walletLoader" class="loader-overlay hidden"><div class="spinner"></div></div>
+    <!-- USER MENU DROPDOWN (INLINED) -->
+<div class="glass-dropdown-box" id="nexusDropdownMenu">
+    <div class="dropdown-header">
+        <div class="dd-avatar-box">
+            <span id="ddAvatar">U</span>
+        </div>
+        <div class="dd-user-info">
+            <h4 id="ddName">Client Node</h4>
+            <p id="ddEmail">Loading data...</p>
+        </div>
+    </div>
+    <div class="dropdown-body">
+        <a href="./hwid-reset.html" class="dd-item group">
+            <i class="fas fa-microchip icon-purple"></i>
+            <span>HWID Reset</span>
+        </a>
+        <a href="./my-keys.html" class="dd-item group">
+            <i class="fas fa-key icon-blue"></i>
+            <span>My Keys</span>
+        </a>
+        <a href="./referrals.html" class="dd-item group">
+            <i class="fas fa-users icon-emerald"></i>
+            <span>Refer & Earn</span>
+        </a>
+        <a href="./helpdesk.html" class="dd-item group">
+            <i class="fas fa-headset icon-yellow"></i>
+            <span>Helpdesk</span>
+        </a>
+        <a href="./user-settings.html" class="dd-item group">
+            <i class="fas fa-cog icon-gray"></i>
+            <span>App Settings</span>
+        </a>
+        <a href="./payment-settings.html" class="dd-item group" id="adminPanelLink" style="display:none">
+            <i class="fas fa-shield-alt icon-yellow"></i>
+            <span>Admin Settings</span>
+        </a>
+    </div>
+    <div class="dropdown-footer">
+        <button id="ddLogoutBtn" class="dd-logout-btn">
+            <i class="fas fa-sign-out-alt mr-2"></i> Secure Logout
+        </button>
+    </div>
+</div>
+<!-- NOTIFICATIONS OVERLAY & POPUP (INLINED) -->
+<div id="notifOverlay" class="notif-overlay" onclick="closeNotifPopup(event)">
+    <div class="notif-popup" onclick="event.stopPropagation()">
+        <div class="notif-popup-header">
+            <div class="notif-popup-title"><i class="fas fa-bell" style="color:#00f0ff;"></i> Notifications</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <button class="notif-mark-all-btn" onclick="markAllRead()">Clear all</button>
+                <button class="notif-close-btn" onclick="closeNotifPopup()"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div id="notifPopupList" class="notif-popup-list">
+            <div style="text-align:center;padding:40px;color:rgba(255,255,255,0.15);font-size:12px;">Loading...</div>
+        </div>
+    </div>
+</div>
+    <!-- BOTTOM NAVIGATION (INLINED) -->
+<nav id="bottomNav" class="bottom-nav">
+    <a href="./home.html" class="nav-item" id="navHome">
+        <i class="fa-solid fa-house nav-icon"></i>
+        <span class="nav-text" data-i18n="home">Home</span>
+    </a>
+    <a href="./shop.html" class="nav-item" id="navStore">
+        <i class="fa-solid fa-layer-group nav-icon"></i>
+        <span class="nav-text" data-i18n="store">Store</span>
+    </a>
+    <a href="./shop.html" class="nav-center" id="navCenter">
+        <div class="center-circle">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cartBadge" class="cart-badge">0</span>
+        </div>
+    </a>
+    <a href="./wallet.html" class="nav-item active" id="navWallet">
+        <i class="fa-solid fa-wallet nav-icon"></i>
+        <span class="nav-text" data-i18n="wallet">Wallet</span>
+    </a>
+    <a href="./profile.html" class="nav-item" id="navProfile">
+        <i class="fa-solid fa-user-astronaut nav-icon"></i>
+        <span class="nav-text" data-i18n="profile">Profile</span>
+    </a>
+</nav>
+    
+    
+    
+        
+    <script type="module" src="../js/wallet.js?v=20260924-authfix"></script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Nexus Core | Refer & Earn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- HIGH-SPEED SPECULATIVE PRERENDER (0ms Instant Page Switch) -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://www.gstatic.com">
+    <script type="speculationrules">
+    {
+      "prerender": [
+        {
+          "source": "list",
+          "urls": [
+            "./home.html",
+            "./shop.html",
+            "./wallet.html",
+            "./profile.html",
+            "./helpdesk.html",
+            "./my-keys.html",
+            "./hwid-reset.html",
+            "./payment-settings.html",
+            "./referrals.html",
+            "./user-settings.html"
+          ],
+          "eagerness": "immediate"
+        }
+      ]
+    }
+    </script>
+</head>
+<body class="text-gray-300 font-sans overflow-x-hidden selection:bg-emerald-600 selection:text-white  relative">
+    <div class="premium-bg-container">
+        <div class="bg-orb bg-orb-1" style="background:#059669;"></div>
+        <div class="bg-orb bg-orb-2" style="background:#10b981;"></div>
+        <div class="bg-grid-overlay"></div>
+    </div>
+    <!-- UNIVERSAL HEADER (INLINED) -->
+<nav id="nexusHeaderUniversal" class="nexus-header-container">
+    <div class="header-brand-box" onclick="history.back()">
+        <div class="header-icon-glow"><i class="fas fa-users-rays"></i></div>
+        <div class="header-titles">
+            <h1 class="header-main-title">Referrals</h1>
+        </div>
+    </div>
+    <div class="header-actions-box">
+        <div class="auth-ui-logged-in" style="display:none">
+            <div class="header-wallet-btn" onclick="window.location.href='./wallet.html'">
+                <div class="wallet-icon-box"><i class="fas fa-wallet"></i></div>
+                <div class="wallet-amount-box">
+                    <span id="headerLiveBalance" class="balance-digits" data-inr="0">₹0.00</span>
+                </div>
+            </div>
+            <div class="header-notif-wrap">
+                <button class="header-notif-btn" onclick="openNotificationPopup()" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span id="notifBadge" class="notif-badge" style="display:none">0</span>
+                </button>
+            </div>
+            <button id="headerMenuToggleBtn" class="header-menu-btn" onclick="toggleNexusMenu()">
+                <i class="fas fa-bars-staggered pointer-events-none"></i>
+            </button>
+        </div>
+        <div class="auth-ui-logged-out">
+            <button class="header-login-btn" onclick="window.location.href='./login.html?tab=login'"><i class="fas fa-sign-in-alt"></i> LOGIN</button>
+            <button class="header-register-btn" onclick="window.location.href='./login.html?tab=register'"><i class="fas fa-user-plus"></i> REGISTER</button>
+        </div>
+    </div>
+</nav>
+    <main class="w-full max-w-3xl mx-auto px-4 md:px-8 py-6 space-y-6 relative z-10">
+        <div class="text-center md:text-left">
+            <h1 class="text-2xl md:text-3xl font-black text-white tracking-tight">
+                <i class="fas fa-users text-emerald-400 mr-2 drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]"></i>
+                Refer & <span class="text-emerald-400">Earn</span>
+            </h1>
+            <p class="text-xs text-gray-500 mt-1">Invite friends and earn rewards</p>
+        </div>
+        <div class="premium-glass-card p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute -top-20 -right-20 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div id="claimBox" class="relative z-10 mb-6 p-5 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border border-emerald-500/20">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-sm">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-emerald-400 uppercase tracking-wider">Referral Bonus Available</p>
+                            <p class="text-lg font-black text-white"><span id="claimableAmount" data-inr="0">₹0.00</span></p>
+                        </div>
+                    </div>
+                    <button id="claimBtn" class="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl font-black text-[10px] uppercase tracking-wider text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:shadow-[0_0_25px_rgba(16,185,129,0.6)] hover:translate-y-[-1px] transition-all duration-300 flex items-center gap-2">
+                        <i class="fas fa-hand-holding-heart"></i> Claim
+                    </button>
+                </div>
+            </div>
+            <div class="relative z-10">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black text-white uppercase tracking-wider">Your Referral Link</h2>
+                        <p class="text-[10px] text-gray-500">Share this with your friends</p>
+                    </div>
+                </div>
+                <div class="bg-black/50 border border-white/5 rounded-2xl p-4 mb-6">
+                    <div class="flex items-center gap-3">
+                        <code id="referralLink" class="flex-1 text-sm font-mono text-emerald-400 break-all">Loading...</code>
+                        <button onclick="copyReferralLink()" class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 hover:bg-emerald-500/20 transition shrink-0">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-black/40 border border-white/5 rounded-2xl p-4 text-center">
+                        <p class="text-2xl font-black text-white font-mono" id="totalReferrals">0</p>
+                        <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mt-1">Total Referrals</p>
+                    </div>
+                    <div class="bg-black/40 border border-white/5 rounded-2xl p-4 text-center">
+                        <p class="text-2xl font-black text-emerald-400 font-mono"><span id="referralEarnings" data-inr="0">₹0</span></p>
+                        <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mt-1">Earnings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="premium-glass-card p-6 md:p-8 relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-5">
+                    <i class="fas fa-users-between-lines text-emerald-400 text-sm"></i>
+                    <h3 class="text-xs font-black text-white uppercase tracking-wider">Your Referrals</h3>
+                </div>
+                <div id="referralListContainer">
+                    <div class="flex flex-col items-center justify-center py-10 opacity-60">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 flex items-center justify-center text-emerald-500/30 text-xl mb-3">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <p class="text-[10px] font-mono tracking-widest text-gray-500">No referrals yet</p>
+                        <p class="text-[9px] text-gray-600 mt-1">Share your link to start earning</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="premium-glass-card p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute -top-20 -right-20 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-5">
+                    <i class="fas fa-circle-info text-emerald-400 text-sm"></i>
+                    <h3 class="text-xs font-black text-white uppercase tracking-wider">How It Works</h3>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xs shrink-0 mt-0.5">1</div>
+                        <div>
+                            <p class="text-xs font-black text-white">Share Your Link</p>
+                            <p class="text-[10px] text-gray-500 mt-0.5">Copy your referral link above and share it with friends on WhatsApp, Telegram, or any platform.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xs shrink-0 mt-0.5">2</div>
+                        <div>
+                            <p class="text-xs font-black text-white">Friend Registers</p>
+                            <p class="text-[10px] text-gray-500 mt-0.5">When someone clicks your link and creates an account, they are automatically tagged as your referral.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xs shrink-0 mt-0.5">3</div>
+                        <div>
+                            <p class="text-xs font-black text-white">You Earn 5%</p>
+                            <p class="text-[10px] text-gray-500 mt-0.5">Your friend deposits money and you get <span class="text-emerald-400 font-black">5% commission</span> of their deposit amount — credited to your Referral Bonus.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xs shrink-0 mt-0.5">4</div>
+                        <div>
+                            <p class="text-xs font-black text-white">Claim Your Bonus</p>
+                            <p class="text-[10px] text-gray-500 mt-0.5">Once the bonus accumulates, click <span class="text-emerald-400 font-black">Claim</span> above to transfer it directly to your wallet balance. No limits, no expiry!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- USER MENU DROPDOWN (INLINED) -->
+<div class="glass-dropdown-box" id="nexusDropdownMenu">
+    <div class="dropdown-header">
+        <div class="dd-avatar-box">
+            <span id="ddAvatar">U</span>
+        </div>
+        <div class="dd-user-info">
+            <h4 id="ddName">Client Node</h4>
+            <p id="ddEmail">Loading data...</p>
+        </div>
+    </div>
+    <div class="dropdown-body">
+        <a href="./hwid-reset.html" class="dd-item group">
+            <i class="fas fa-microchip icon-purple"></i>
+            <span>HWID Reset</span>
+        </a>
+        <a href="./my-keys.html" class="dd-item group">
+            <i class="fas fa-key icon-blue"></i>
+            <span>My Keys</span>
+        </a>
+        <a href="./referrals.html" class="dd-item group">
+            <i class="fas fa-users icon-emerald"></i>
+            <span>Refer & Earn</span>
+        </a>
+        <a href="./helpdesk.html" class="dd-item group">
+            <i class="fas fa-headset icon-yellow"></i>
+            <span>Helpdesk</span>
+        </a>
+        <a href="./user-settings.html" class="dd-item group">
+            <i class="fas fa-cog icon-gray"></i>
+            <span>App Settings</span>
+        </a>
+        <a href="./payment-settings.html" class="dd-item group" id="adminPanelLink" style="display:none">
+            <i class="fas fa-shield-alt icon-yellow"></i>
+            <span>Admin Settings</span>
+        </a>
+    </div>
+    <div class="dropdown-footer">
+        <button id="ddLogoutBtn" class="dd-logout-btn">
+            <i class="fas fa-sign-out-alt mr-2"></i> Secure Logout
+        </button>
+    </div>
+</div>
+<!-- NOTIFICATIONS OVERLAY & POPUP (INLINED) -->
+<div id="notifOverlay" class="notif-overlay" onclick="closeNotifPopup(event)">
+    <div class="notif-popup" onclick="event.stopPropagation()">
+        <div class="notif-popup-header">
+            <div class="notif-popup-title"><i class="fas fa-bell" style="color:#00f0ff;"></i> Notifications</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <button class="notif-mark-all-btn" onclick="markAllRead()">Clear all</button>
+                <button class="notif-close-btn" onclick="closeNotifPopup()"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div id="notifPopupList" class="notif-popup-list">
+            <div style="text-align:center;padding:40px;color:rgba(255,255,255,0.15);font-size:12px;">Loading...</div>
+        </div>
+    </div>
+</div>
+    <!-- BOTTOM NAVIGATION (INLINED) -->
+<nav id="bottomNav" class="bottom-nav">
+    <a href="./home.html" class="nav-item" id="navHome">
+        <i class="fa-solid fa-house nav-icon"></i>
+        <span class="nav-text" data-i18n="home">Home</span>
+    </a>
+    <a href="./shop.html" class="nav-item" id="navStore">
+        <i class="fa-solid fa-layer-group nav-icon"></i>
+        <span class="nav-text" data-i18n="store">Store</span>
+    </a>
+    <a href="./shop.html" class="nav-center" id="navCenter">
+        <div class="center-circle">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cartBadge" class="cart-badge">0</span>
+        </div>
+    </a>
+    <a href="./wallet.html" class="nav-item" id="navWallet">
+        <i class="fa-solid fa-wallet nav-icon"></i>
+        <span class="nav-text" data-i18n="wallet">Wallet</span>
+    </a>
+    <a href="./profile.html" class="nav-item" id="navProfile">
+        <i class="fa-solid fa-user-astronaut nav-icon"></i>
+        <span class="nav-text" data-i18n="profile">Profile</span>
+    </a>
+</nav>
+    <div id="toastContainer" class="fixed top-20 right-4 z-[99999] flex flex-col gap-2 pointer-events-none"></div>
+    
+        
+    <script type="module" src="../js/referrals.js"></script>
+</body>
+</html>
